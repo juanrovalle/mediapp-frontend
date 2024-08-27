@@ -1,0 +1,36 @@
+<form [formGroup]="form" class="example-container" (submit)="operate()">
+    <div [hidden]=" true ">
+        <mat-form-field>
+            <input matInput placeholder="ID " required forControName="idPatient ">
+        </mat-form-field>
+    </div>
+    <mat-form-field>
+        <input matInput placeholder="First Name " required forControName="firstName ">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Last Name " required forControName="lastName ">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Cedula " required forControName="dni ">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Address " required forControName="address ">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Phone " required forControName="phone ">
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Email " required forControName="email ">
+    </mat-form-field>
+
+    <button mat-button type="submit ">
+        <mat-icon>done</mat-icon>
+        <span>Done</span>
+    </button>
+
+    <button mat-button type="button " color="accent " routerLink="/pages/patient">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+    </button>
+
+</form>
