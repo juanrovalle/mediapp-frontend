@@ -2,14 +2,36 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Patient } from '../model/patient';
+import { Subject } from 'rxjs';
+import { GenericService } from './generic.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PatientService {
-  private url: string = `${environment.HOST}/patients`;
-  patients: Patient[] = [];
-  constructor(private http: HttpClient) {}
+export class PatientService extends GenericService<Patient> {
+  private patientChange: Subject<Patient[]> = new Subject<Patient[]>();
+  private messageChange: Subject<string> = new Subject<string>();
+  private patients: Patient[] = [];
+
+  constructor(protected override http: HttpClient) {
+    super(http, `${environment.HOST}/patients`);
+  }
+
+  public getPatientChange() {
+    return this.patientChange.asObservable();
+  }
+  public setPatientChange(data: Patient[]) {
+    this.patientChange.next(data);
+  }
+  public getMessagehange() {
+    return this.messageChange.asObservable();
+  }
+  public setMessageChange(data: string) {
+    this.messageChange.next(data);
+  }
+
+  // Refactored CRUD Operations
+  /** 
   findAll() {
     return this.http.get<Patient[]>(this.url);
   }
@@ -26,7 +48,7 @@ export class PatientService {
   }
 
   delete(id: number) {
-    this.http.delete<Patient>(`${this.url}/${id}`);
+    return this.http.delete<Patient>(`${this.url}/${id}`);
   }
-  
+    */
 }

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { MedicComponent } from './medic/medic.component';
 import { PatientComponent } from './pages/patient/patient.component';
 import { LoginComponent } from './login/login.component';
 import { LayoutComponent } from './pages/layout/layout.component';

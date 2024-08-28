@@ -1,0 +1,30 @@
+<mat-dialog-content>
+    <mat-toolbar>Medic Info</mat-toolbar>
+
+    <div class="example-container">
+        <mat-form-field>
+            <mat-label> Specialty</mat-label>
+            <mat-select [(ngModel)]="medic.idSpeciality">
+                @for (spe of specialities; track $index) {
+                <mat-option [value]="spe.idSpeciality">{{ spe.name }}</mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Primary Name" [(ngModel)]="medic.name" />
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Surname" [(ngModel)]="medic.lastname" />
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Medic Code" [(ngModel)]="medic.NPI" />
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Photo" [(ngModel)]="medic.photoUrl" />
+        </mat-form-field>
+        @if (medic.photoUrl){
+        <img mat-car-image [src]="medic.photoUrl" alt="Photo of Medic" /> }
+        <button mat-button (click)="operate()">Done</button>
+        <button mat-button color="accent" (click)="close()">Cancel</button>
+    </div>
+</mat-dialog-content>

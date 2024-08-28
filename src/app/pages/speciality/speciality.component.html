@@ -1,4 +1,4 @@
-<router-outlet />
+<router-outlet/>
 
 <mat-form-field>
     <mat-label>Filter</mat-label>
@@ -7,33 +7,28 @@
 
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort>
-        <ng-container matColumnDef="idPatient">
+        <ng-container matColumnDef="idSpeciality">
             <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let row">{{ row.idPatient }}</td>
+            <td mat-cell *matCellDef="let row">{{ row.idSpeciality }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="firstName">
+        <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+            <td mat-cell *matCellDef="let row">{{ row.name }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
-            <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="dni">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cedula</th>
-            <td mat-cell *matCellDef="let row">{{ row.dni }}</td>
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Description</th>
+            <td mat-cell *matCellDef="let row">{{ row.description }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <th mat-header-cell *matHeaderCellDef>ACTIONS</th>
             <td mat-cell *matCellDef="let row">
-                <button mat-button [routerLink]="['edit', row.idPatient]">
+                <button mat-button routerLink="/pages/speciality/new">
           <mat-icon>mode_edit</mat-icon>
         </button>
-                <button mat-button color="accent" (click)="delete(row.idPatient)">
+                <button mat-button color="accent" (click)="delete(row.idMedic)">
           <mat-icon>delete</mat-icon>
         </button>
             </td>
@@ -46,7 +41,7 @@
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 
-    <button mat-fab color="primary" style="float: right" routerLink="/pages/patient/new">
+    <button mat-fab color="primary" style="float: right">
     <mat-icon> add </mat-icon>
   </button>
 </div>

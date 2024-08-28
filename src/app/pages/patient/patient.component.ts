@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { PatientService } from '../../services/patient.service';
 import { Patient } from '../../model/patient';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { switchMap } from 'rxjs';
 @Component({
   selector: 'app-patient',
   standalone: true,
@@ -28,21 +30,43 @@ export class PatientComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private PatientService: PatientService) {}
-
+  private _snackBar = inject(MatSnackBar);
   ngOnInit(): void {
-    this.PatientService.findAll().subscribe(
-      (data) =>{ (this.dataSource = new MatTableDataSource(data))
-      this.dataSource.sort = this.sort
-      this.dataSource.paginator= this.paginator
-      }
+    this.PatientService.findAll().subscribe((data) => {
+      this.createTable(data);
+    });
+    this.PatientService.getPatientChange().subscribe((data) => {
+      this.createTable(data);
+    });
+    this.PatientService.getMessagehange().subscribe((data) =>
+      this._snackBar.open(data, 'Info', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right',
+      })
     );
-    this.dataSource.sort = this.sort
   }
+
+  private createTable(data: Patient[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
   getDisplayedColumns() {
     return this.columnDefinition.filter((cd) => !cd.hide).map((cd) => cd.def);
   }
   applyFilter(e: any) {
     this.dataSource.filter = e.target.value.trim();
   }
-  
+
+  delete(id: number) {
+    console.log(id);
+    this.PatientService.delete(id)
+      .pipe(switchMap(() => this.PatientService.findAll()))
+      .subscribe((data) => {
+        this.PatientService.setPatientChange(data);
+        this.PatientService.setMessageChange(`${id}: Deleted`);
+      });
+  }
 }
