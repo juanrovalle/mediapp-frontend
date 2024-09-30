@@ -12,6 +12,23 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  DateAdapter,
+  MAT_DATE_LOCALE,
+  MatNativeDateModule,
+} from '@angular/material/core';
+import { CustomDateAdapter } from './custom-adapter';
+import { MatExpansionModule } from '@angular/material/expansion';
+import {
+  MatAutocomplete,
+  MatAutocompleteModule,
+} from '@angular/material/autocomplete';
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatTabsModule} from '@angular/material/tabs'
 @NgModule({
   declarations: [],
   imports: [
@@ -22,13 +39,23 @@ import { MatSelectModule } from '@angular/material/select';
     MatToolbarModule,
     MatMenuModule,
     MatSidenavModule,
-    MatFormFieldModule ,
+    MatFormFieldModule,
     MatInputModule,
     MatSortModule,
     MatInputModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatExpansionModule,
+    MatAutocompleteModule,
+    MatListModule, 
+    MatCardModule,
+    MatGridListModule,
+    MatTableModule,
+    MatTabsModule
+  
   ],
   exports: [
     MatTableModule,
@@ -44,7 +71,21 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatPaginatorModule,
     MatDialogModule,
-    MatSelectModule  
+    MatSelectModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatAutocompleteModule,
+    MatListModule,
+    MatCardModule,
+    MatGridListModule,
+    MatTableModule, 
+    MatTabsModule,
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: DateAdapter, useClass: CustomDateAdapter },
   ],
 })
 export class MaterialModule {}

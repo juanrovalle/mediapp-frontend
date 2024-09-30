@@ -5,7 +5,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { Speciality } from '../../model/speciality';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormGroup } from '@angular/forms';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-speciality',
@@ -15,10 +18,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './speciality.component.css',
 })
 export class SpecialityComponent implements OnInit {
-delete(arg0: any) {
-throw new Error('Method not implemented.');
-}
-  dataSource: Speciality[];
+  dataSource: MatTableDataSource<Speciality>;
+  form!: FormGroup;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   columnDefinition = [
@@ -27,19 +28,33 @@ throw new Error('Method not implemented.');
     { def: 'description', label: 'Last', hide: false },
     { def: 'actions', label: 'Actions', hide: false },
   ];
- 
 
   constructor(
     private specialityService: SpecialityService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.specialityService.findAll().subscribe(data=>{
-      this.dataSource = data;
-    })
+    // First run
+    this.specialityService.findAll().subscribe((data) => {
+      this.initMatTable(data);
+    });
+    // Other times run
+    this.specialityService.getSpecialtyChange().subscribe((data) => {
+      this.initMatTable(data);
+    });
+
+    this.specialityService.getMessagehange().subscribe((data) => {
+      this.showSnackMessage(data);
+    });
   }
 
+  private initMatTable(data: Speciality[]) {
+    this.dataSource = new MatTableDataSource(data);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
 
   getDisplayedColumns() {
     return this.columnDefinition.filter((cd) => !cd.hide).map((cd) => cd.def);
@@ -47,8 +62,25 @@ throw new Error('Method not implemented.');
   applyFilter(e: any) {
     this.dataSource.filter = e.target.value.trim();
   }
+  private showSnackMessage(data: string): void {
+    this._snackBar.open(data, 'Info', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
+  }
 
-  operate(){}
+  hideChildren() {
+    return this.activatedRoute.children.length > 0;
+  }
 
-  close(){}
+  delete(id: number) {
+    this.specialityService
+      .delete(id)
+      .pipe(switchMap(() => this.specialityService.findAll()))
+      .subscribe((data) => {
+        this.specialityService.setSpecialtyChange(data);
+        this.specialityService.setMessageChange(`Speciality id: ${id} Deleted.` )
+      });
+  }
 }

@@ -1,0 +1,34 @@
+<!-- <mat-tab-group>
+    <mat-tab label="First"> Content 1 </mat-tab>
+    <mat-tab label="Second"> Content 2 </mat-tab>
+    <mat-tab label="Third"> Content 3 </mat-tab>
+</mat-tab-group> -->
+
+<mat-toolbar></mat-toolbar>
+<form [formGroup]="form" (submit)="search()">
+    <mat-tab-group #tabGroup>
+        <mat-tab label="option1">
+            <mat-form-field>
+                <input matInput placeholder="DNI" formControlName="dni" />
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Patient FullName" formControlName="fullName" />
+            </mat-form-field>
+        </mat-tab>
+
+        <mat-tab label="Option2">
+            <mat-form-field>
+                <mat-label> Select a Range: </mat-label>
+                <mat-date-range-input [rangePicker]="picker">
+                    <input matStartDate placeholder="Start Date" formControlName="startDate" />
+                    <input matEndDate placeholder="End Date" formControlName="endtDate" />
+                </mat-date-range-input>
+                <mat-hint>DD/MM/YYYY - DD/MM/YYYY </mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </mat-tab>
+    </mat-tab-group>
+    <button mat-button type="submit"> Search</button>
+</form>

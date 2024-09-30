@@ -39,12 +39,16 @@ export class PatientComponent implements OnInit {
       this.createTable(data);
     });
     this.PatientService.getMessagehange().subscribe((data) =>
-      this._snackBar.open(data, 'Info', {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right',
-      })
+      this.showSnackMessage(data)
     );
+  }
+
+  private showSnackMessage(data: string): void {
+    this._snackBar.open(data, 'Info', {
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'right',
+    });
   }
 
   private createTable(data: Patient[]) {

@@ -70,7 +70,8 @@ export class MedicComponent implements OnInit {
 
   delete(id: number) {
     console.log(id);
-    this.medicService.delete(id)
+    this.medicService
+      .delete(id)
       .pipe(switchMap(() => this.medicService.findAll()))
       .subscribe((data) => {
         this.medicService.setMedicChange(data);
