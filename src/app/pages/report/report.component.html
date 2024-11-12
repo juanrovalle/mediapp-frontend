@@ -1,5 +1,38 @@
-<mat-toolbar>
+<mat-toolbar></mat-toolbar>
+<button mat-button (click)="change('line')">Line</button>
+<button mat-button (click)="change('bar')">Bar</button>
+<button mat-button (click)="change('doughnut')">Doughnut</button>
+<button mat-button (click)="change('radar')">Radar</button>
+<button mat-button (click)="change('pie')">Pie</button>
 
-</mat-toolbar>
+<div>
+  <!-- [hidden]="!chart"> -->
+  <canvas id="canvas"></canvas>
+</div>
 
-<button mat-button (click)="change('line')"> </button>
+<button mat-button (click)="viewReport()">View Report</button>
+<button mat-button (click)="downloadReport()">Download Report</button>
+
+@if(pdfSrc){
+<pdf-viewer
+  [src]="pdfSrc"
+  [render-text]="true"
+  [original-size]="false"
+  style="width: 800px; height: 800px"
+>
+</pdf-viewer>
+}
+<button mat-button onclick="document.getElementById('flFile').click()">
+  Select File
+</button>
+<input
+  id="flFile"
+  type="file"
+  style="display: none"
+  (change)="selectFile($event)"
+/>
+
+@if (fileName) {
+<p>Filename is : {{ fileName }}</p>
+}
+<button mat-button (click)="upload()" [disabled]="!selectedFiles">Upload</button>

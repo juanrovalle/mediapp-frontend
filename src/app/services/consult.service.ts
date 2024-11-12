@@ -9,6 +9,16 @@ import { FilterConsultDTO } from '../model/filterConsultDTO';
   providedIn: 'root',
 })
 export class ConsultService {
+  saveFile(data: File) {
+    const formdata: FormData = new FormData();
+    formdata.append('file',data)
+    return this.http.post(`${this.url}/saveFile`, formdata);
+  }
+  generateReport() {
+    return this.http.get(`${this.url}/generateReport`, {
+      responseType: 'blob',
+    });
+  }
   private url: string = `${environment.HOST}/consults`;
 
   constructor(private http: HttpClient) {}
@@ -33,5 +43,9 @@ export class ConsultService {
 
   searchOthers(dto: FilterConsultDTO) {
     return this.http.post<Consult[]>(`${this.url}/search/others`, dto);
+  }
+
+  callProcedureOrFunction() {
+    return this.http.get<any>(`${this.url}/callProcedureNative`);
   }
 }
