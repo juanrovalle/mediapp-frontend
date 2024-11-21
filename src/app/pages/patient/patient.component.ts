@@ -17,6 +17,9 @@ import { switchMap } from 'rxjs';
   styleUrl: './patient.component.css',
 })
 export class PatientComponent implements OnInit {
+showMore(e: any) {
+this.PatientService.listPageable(e.pageIndex,e.pageSize).subscribe(data=> this.createTable(data));
+}
   patients: Patient[] = [];
   dataSource = new MatTableDataSource<Patient>();
   // displayedColumns: string[] = ['idPatient', 'firstName', 'lastName', 'dni'];
@@ -29,12 +32,15 @@ export class PatientComponent implements OnInit {
   ];
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  totalElements : Number;
   constructor(private PatientService: PatientService) {}
   private _snackBar = inject(MatSnackBar);
+  
   ngOnInit(): void {
-    this.PatientService.findAll().subscribe((data) => {
-      this.createTable(data);
-    });
+    /*this.PatientService.findAll().subscribe((data) => {
+      this.createTable(data);*/
+      this.PatientService.listPageable(0,2).subscribe(data=> this.createTable(data));
+
     this.PatientService.getPatientChange().subscribe((data) => {
       this.createTable(data);
     });
@@ -51,10 +57,12 @@ export class PatientComponent implements OnInit {
     });
   }
 
-  private createTable(data: Patient[]) {
-    this.dataSource = new MatTableDataSource(data);
+  private createTable(data: any) {
+   // this.dataSource = new MatTableDataSource(data);
+   this.dataSource = new MatTableDataSource(data.content);
+   this.totalElements = data.totalElements;
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+  //  this.dataSource.paginator = this.paginator;
   }
 
   getDisplayedColumns() {

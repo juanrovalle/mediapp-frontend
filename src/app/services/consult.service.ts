@@ -9,11 +9,13 @@ import { FilterConsultDTO } from '../model/filterConsultDTO';
   providedIn: 'root',
 })
 export class ConsultService {
-  saveFile(data: File) {
-    const formdata: FormData = new FormData();
-    formdata.append('file',data)
-    return this.http.post(`${this.url}/saveFile`, formdata);
+  //Files, Image
+  saveFile(data: FormData) {
+    return this.http.post(`${this.url}/saveFile`, data);
+
+    //this.http.post(`${this.url}/saveFile`, formData);
   }
+
   generateReport() {
     return this.http.get(`${this.url}/generateReport`, {
       responseType: 'blob',
@@ -47,5 +49,10 @@ export class ConsultService {
 
   callProcedureOrFunction() {
     return this.http.get<any>(`${this.url}/callProcedureNative`);
+  }
+  readFile(id: number) {
+    return this.http.get(`${this.url}/readFile/${id}`, {
+      responseType: 'blob',
+    });
   }
 }

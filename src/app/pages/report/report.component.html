@@ -22,17 +22,16 @@
 >
 </pdf-viewer>
 }
-<button mat-button onclick="document.getElementById('flFile').click()">
-  Select File
-</button>
-<input
-  id="flFile"
-  type="file"
-  style="display: none"
-  (change)="selectFile($event)"
-/>
+<button mat-button onclick="document.getElementById('flFile').click()">Select File</button>
+<input id="flFile" type="file" style="display: none;" (change)="selectFile($event)" > <!-- multiple -->
 
 @if (fileName) {
 <p>Filename is : {{ fileName }}</p>
 }
 <button mat-button (click)="upload()" [disabled]="!selectedFiles">Upload</button>
+
+<button mat-button (click)="viewImage()">View Image</button>
+
+@if (imageData) {
+  <img mat-card [src]="imageSignal" alt="" width="500" height="500">
+}

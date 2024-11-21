@@ -16,6 +16,9 @@ export class PatientService extends GenericService<Patient> {
   constructor(protected override http: HttpClient) {
     super(http, `${environment.HOST}/patients`);
   }
+  listPageable(page: Number, s: Number) {
+    return this.http.get<any>(`${this.url}/pageable?page=${page}&size=${s}`);
+  }
 
   public getPatientChange() {
     return this.patientChange.asObservable();
