@@ -26,7 +26,7 @@ import {
   MatAutocompleteModule,
 } from '@angular/material/autocomplete';
 import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
+import { MatCardActions, MatCardModule } from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatTabsModule} from '@angular/material/tabs'
 @NgModule({
@@ -54,7 +54,7 @@ import {MatTabsModule} from '@angular/material/tabs'
     MatCardModule,
     MatGridListModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
   
   ],
   exports: [
